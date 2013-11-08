@@ -167,16 +167,29 @@ public class Ball extends Ellipse2D.Double {
 	 * @param bounds pannello di riferimento sui cui si muove la pallina espresso come rettangolo bidimensionale.
 	 */
 	public void move(Rectangle2D bounds) {
-		double x = posX + velX*(time/100);
-		double y = posY - (velY*(time/100) - (0.5*9.81*Math.pow((time/100),2)));
+		double x = 0, y = 0;
 		
-		time += 10;
+		x = posX + velX*(time/100);
+		if (velY != 0) y = posY -(velY*(time/100) - (0.5*9.81*Math.pow((time/100),2)));
+		else y = bounds.getMaxY() - ySize;
 		
-		if (y+ySize > bounds.getMaxY()) {
+		time += 2;
+		
+		if (y+ySize > bounds.getMaxY()) {	// Sto rimbalzando sul pavimento
 			time = 0;
 			posX = x;
-			velY -= 5;
+			velY -= 1;
+			posY = bounds.getMaxY() - ySize;
+			if (velY < 0) velY = 0;
 			
+		}
+		if (x+xSize >= bounds.getMaxX()) {	// Sto rimbalzando sulla parete destra
+			velX = -velX +0.1;
+			posX = x-xSize;
+		}
+		if (x <= bounds.getMinX()) {	// Sto rimbalzando sulla parete sinistra
+			velX = -velX -0.1;
+			posX = x;
 		}
 		setFrame(x,y,xSize,ySize);
 	}

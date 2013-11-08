@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /** Questa classe rappresenta la finestra principale della GUI del progetto. Contiene il pannello dove si muovono le palline più i vari bottoni per interagire su di esse.
  * @author Luca De Franceschi
@@ -40,19 +41,20 @@ public class MainFrame extends JFrame {
 		setSize(w,h);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Random rg = new Random();
-		Ball[] b = new Ball[1];
+		Ball[] b = new Ball[2];
 		for (int i=0; i<b.length; i++) {
 			Color c1 = new Color(rg.nextInt(255),rg.nextInt(255),rg.nextInt(255));
 			Color c2 = new Color(rg.nextInt(255),rg.nextInt(255),rg.nextInt(255));
 			double s = 50;
-			b[i] = new Ball(0, 400, 20, 100 ,s,s,50,c1,c2);
+			b[i] = new Ball(rg.nextInt(this.getWidth() - 25), rg.nextInt(this.getHeight() - 25), rg.nextInt(25), rg.nextInt(25),s,s,50,c1,c2);
 		}
 		e = new Environment(b, 9.81, 0, 0, bg);
 		add(e,BorderLayout.CENTER);
-		e.paint(e.getGraphics());
+		JPanel tools = new JPanel();
+		add(tools,BorderLayout.SOUTH);
 		t = new Thread(e);
 		start = new JButton("Start");
-		e.add(start);
+		tools.add(start);
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) { 
 				t.start();
@@ -60,23 +62,15 @@ public class MainFrame extends JFrame {
 			}
 		});
 		stop = new JButton("Stop");
-		e.add(stop);
+		tools.add(stop);
 		stop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				while (true) {
-					try {
-						t.wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
+				t.interrupt();
 			}
 		});
 		
 		resume = new JButton("Resume");
-		e.add(resume);
+		tools.add(resume);
 		resume.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				t.notify();
