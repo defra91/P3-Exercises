@@ -42,13 +42,14 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Random rg = new Random();
 		Ball[] b = new Ball[2];
+		e = new Environment(b, 9.81, 0, 0, bg);
 		for (int i=0; i<b.length; i++) {
 			Color c1 = new Color(rg.nextInt(255),rg.nextInt(255),rg.nextInt(255));
 			Color c2 = new Color(rg.nextInt(255),rg.nextInt(255),rg.nextInt(255));
 			double s = 50;
-			b[i] = new Ball(rg.nextInt(this.getWidth() - 25), rg.nextInt(this.getHeight() - 25), rg.nextInt(25), rg.nextInt(25),s,s,50,c1,c2);
+			b[i] = new Ball(rg.nextInt(this.getWidth() - 25), rg.nextInt(this.getHeight() - 25), rg.nextInt(50), rg.nextInt(50),s,s,50,c1,c2,e);
 		}
-		e = new Environment(b, 9.81, 0, 0, bg);
+		
 		add(e,BorderLayout.CENTER);
 		JPanel tools = new JPanel();
 		add(tools,BorderLayout.SOUTH);

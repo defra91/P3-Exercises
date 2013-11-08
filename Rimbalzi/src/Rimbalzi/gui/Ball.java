@@ -11,7 +11,7 @@ import java.lang.Math;
  * @author Luca De Franceschi
  * @version 1.0, Ven 8 Novembre 2013
  */
-public class Ball extends Ellipse2D.Double {
+public class Ball extends Ellipse2D.Double implements Runnable {
 	/** Descrive la posizione in pixel nell'asse x della finestra. */
 	private double posX = 0;
 	
@@ -42,6 +42,10 @@ public class Ball extends Ellipse2D.Double {
 	/** Rappresenta il tempo espresso in secondi in cui la pallina è in aria. */
 	double time = 0;
 	
+	/** Rappresenta il rettangolo entro cui è contenuta la pallina */
+	private Environment env;
+	
+	
 	/** Costruttore di default della pallina con tutti i campi dati settati a zero e colore impostato a nero. */
 	public Ball() {
 		borderColor = new Color(0,0,0);
@@ -58,14 +62,16 @@ public class Ball extends Ellipse2D.Double {
 	 * @param w Indica la massa della pallina.
 	 * @param b1 Indica il colore del bordo della pallina.
 	 * @param b2 Indica il colore dello sfondo della pallina.
+	 * @param r Indica il rettangolo entro cui è contenuta la pallina.
 	 */
-	public Ball(double x, double y, double vx, double vy, double xs, double ys, double w, Color b1, Color b2) {
+	public Ball(double x, double y, double vx, double vy, double xs, double ys, double w, Color b1, Color b2, Environment e) {
 		super(x,y,xs,ys);
 		posX = x; posY = y;
 		velX = vx; velY = vy;
 		xSize = xs; ySize = ys;
 		weight = w;
 		borderColor = b1; backgroundColor = b2;
+		env = e;
 	}
 	
 	/** Imposta la posizione x della pallina espressa in pixel.
@@ -166,14 +172,14 @@ public class Ball extends Ellipse2D.Double {
 	/** Si occupa di far muovere la pallina nel pannello secondo le leggi fisiche del moto parabolico uniformemente accelerato.
 	 * @param bounds pannello di riferimento sui cui si muove la pallina espresso come rettangolo bidimensionale.
 	 */
-	public void move(Rectangle2D bounds) {
+	public void move() {
 		double x = 0, y = 0;
-		
+		Rectangle2D bounds = env.getBounds();
 		x = posX + velX*(time/100);
 		if (velY != 0) y = posY -(velY*(time/100) - (0.5*9.81*Math.pow((time/100),2)));
 		else y = bounds.getMaxY() - ySize;
 		
-		time += 2;
+		time += 1;
 		
 		if (y+ySize > bounds.getMaxY()) {	// Sto rimbalzando sul pavimento
 			time = 0;
@@ -192,5 +198,20 @@ public class Ball extends Ellipse2D.Double {
 			posX = x;
 		}
 		setFrame(x,y,xSize,ySize);
+		env.paint(env.getGraphics());
+	}
+
+	@Override
+	public void run() {
+		while (true) {
+			this.move();
+			try {
+				Thread.sleep(3);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }

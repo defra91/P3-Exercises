@@ -161,22 +161,10 @@ public class Environment extends JPanel implements Runnable {
 	 * @see java.lang.Runnable#run()
 	 */
 	public void run() {
-		try {
-			while (!Thread.currentThread().isInterrupted()) {
-				for (int i=0; ; i++) {
-					for (Ball b : balls) {
-						b.move(getBounds());
-					}
-					paint(getGraphics());
-					Thread.sleep(5);
-				}
+			for (Ball b : balls) {
+				Thread t = new Thread(b);
+				t.start();
 			}
-		} 
-		catch(InterruptedException e) { 
-			System.out.println("Thread interrotto durante l'esecuzione"); 
-		}
-		finally {
-			
-		}
+			paint(getGraphics());
 	}
 }
