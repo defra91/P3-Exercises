@@ -11,6 +11,7 @@ public class MainFrame extends JFrame {
 	private Environment e;
 	private JButton start;
 	private JButton stop;
+	private JButton resume;
 	Thread t;
 	
 	public MainFrame(int x, int y, int w, int h, Color bg, String title) {
@@ -18,35 +19,49 @@ public class MainFrame extends JFrame {
 		setSize(w,h);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Random rg = new Random();
-		Ball[] b = new Ball[rg.nextInt(50)];
+		Ball[] b = new Ball[1];
 		for (int i=0; i<b.length; i++) {
 			Color c1 = new Color(rg.nextInt(255),rg.nextInt(255),rg.nextInt(255));
 			Color c2 = new Color(rg.nextInt(255),rg.nextInt(255),rg.nextInt(255));
-			double s = rg.nextInt(50);
-			b[i] = new Ball(rg.nextInt(500), rg.nextInt(500), rg.nextInt(5), rg.nextInt(5),s,s,50,c1,c2);
+			double s = 50;
+			b[i] = new Ball(0, 400, 20, 100 ,s,s,50,c1,c2);
 		}
 		e = new Environment(b, 9.81, 0, 0, bg);
 		add(e,BorderLayout.CENTER);
 		e.paint(e.getGraphics());
-		
+		t = new Thread(e);
 		start = new JButton("Start");
 		e.add(start);
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) { 
-				t = new Thread(e);
 				t.start();
+				start.setEnabled(false);
 			}
 		});
 		stop = new JButton("Stop");
 		e.add(stop);
 		stop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				t.interrupt();
-				for (Ball b : e.getBalls()) {
-					System.out.println(b.getX() + " ," + b.getY());
+				while (true) {
+					try {
+						t.wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+				
 			}
 		});
+		
+		resume = new JButton("Resume");
+		e.add(resume);
+		resume.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				t.notify();
+			}
+		});
+		
 		/*this.addComponentListener(new ComponentListener() {
 			public void componentShown(ComponentEvent arg0) {}			
 			public void componentResized(ComponentEvent arg0) { 

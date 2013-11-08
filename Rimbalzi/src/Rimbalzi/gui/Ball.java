@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.*;
+import java.lang.Math;
 
 
 
@@ -16,6 +17,7 @@ public class Ball extends Ellipse2D.Double {
 	private double weight = 0;		// massa espressa in kg
 	private Color borderColor;
 	private Color backgroundColor;
+	int time = 0;
 	
 	public Ball() {
 		borderColor = new Color(0,0,0);
@@ -55,20 +57,17 @@ public class Ball extends Ellipse2D.Double {
 	Point2D.Double getCenter() { return new Point2D.Double(posX+xSize/2,posY+ySize/2); }
 	
 	public void move(Rectangle2D bounds) {
-		posX += velX;
-		posY += velY;
+		double x = posX + velX*(time/100);
+		double y = posY - (velY*(time/100) - (0.5*9.81*Math.pow((time/100),2)));
 		
-		if (posX < bounds.getMinX()) { x = bounds.getMinX(); velX = -velX; }
-		if (posX + xSize >= bounds.getMaxX()) {
-			posX = bounds.getMaxX() - xSize; velX = -velX;
+		time += 10;
+		
+		if (y+ySize > bounds.getMaxY()) {
+			time = 0;
+			posX = x;
+			velY -= 5;
+			
 		}
-		if (posY < bounds.getMinY()) { 
-			posY = bounds.getMinY(); velY = -velY;
-		}
-		if (posY + ySize >= bounds.getMaxY()) {
-			posY = bounds.getMaxY() - ySize;
-			velY = -velY;
-		}
-		setFrame(posX,posY,xSize,ySize);
+		setFrame(x,y,xSize,ySize);
 	}
 }

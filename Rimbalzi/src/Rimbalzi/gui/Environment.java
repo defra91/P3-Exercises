@@ -23,7 +23,6 @@ public class Environment extends JPanel implements Runnable {
 			public void mouseClicked(MouseEvent e) {
 				Point p = e.getPoint();
 				double x = p.getX(); double y = p.getY();
-				System.out.println(x + ", " + y);
 				for (Ball b : balls) {
 					if ((x > b.getX() && x < (b.getX()+b.getWidth())) && (y > b.getY() && y < (b.getY()+b.getHeight()))) {
 						b.setFrame(0,0,0,0);
@@ -91,13 +90,21 @@ public class Environment extends JPanel implements Runnable {
 	
 	public void run() {
 		try {
-			for (int i=0; ; i++) {
-				for (Ball b : balls) {
-					b.move(getBounds());
+			while (!Thread.currentThread().isInterrupted()) {
+				for (int i=0; ; i++) {
+					for (Ball b : balls) {
+						b.move(getBounds());
+					}
+					paint(getGraphics());
+					Thread.sleep(3);
 				}
-				paint(getGraphics());
-				Thread.sleep(10);
 			}
-		} catch(InterruptedException e) {}
+		} 
+		catch(InterruptedException e) { 
+			System.out.println("Thread interrotto durante l'esecuzione"); 
+		}
+		finally {
+			
+		}
 	}
 }
