@@ -1,0 +1,10 @@
+# File binari #
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Cartelle nascoste #
+.metadata
