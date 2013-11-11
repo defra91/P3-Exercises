@@ -44,7 +44,7 @@ public class MainFrame extends JFrame {
 			Color c1 = new Color(rg.nextInt(255),rg.nextInt(255),rg.nextInt(255));
 			Color c2 = new Color(rg.nextInt(255),rg.nextInt(255),rg.nextInt(255));
 			double s = 50;
-			b[i] = new Ball(rg.nextInt(this.getWidth() - 25), rg.nextInt(this.getHeight() - 25), rg.nextInt(50), rg.nextInt(50),s,s,50,c1,c2,e);
+			b[i] = new Ball(rg.nextInt(this.getWidth() - 25), rg.nextInt(this.getHeight() - 25), 200, 200,s,s,50,c1,c2,e);
 		}
 		
 		add(e,BorderLayout.CENTER);

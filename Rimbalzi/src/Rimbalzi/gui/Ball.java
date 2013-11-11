@@ -199,20 +199,19 @@ public class Ball extends Ellipse2D.Double implements Runnable {
 		}
 		setFrame(x,y,xSize,ySize);
 		env.paint(env.getGraphics());
-		
 	
 	}
 
 	@Override
 	public void run() {
 		while (true) {
-			this.move();
 			try {
 				Thread.sleep(3);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			this.move();
 		}
 		
 	}
