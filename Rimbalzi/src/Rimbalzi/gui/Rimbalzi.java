@@ -13,7 +13,7 @@ public class Rimbalzi {
 	 * @param args argomenti opzionali per il programma.
 	 */
 	public static void main(String[] args) {
-		MainFrame g = new MainFrame(0,0,1000,1000,Color.red,"Rimbalzi");
+		MainFrame g = new MainFrame(0,0,500,500,Color.red,"Rimbalzi");
 		g.setVisible(true);
 	}
 }

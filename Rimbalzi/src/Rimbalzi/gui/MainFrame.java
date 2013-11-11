@@ -25,9 +25,6 @@ public class MainFrame extends JFrame {
 	/** Pulsante per riesumare la simulazione. */
 	private JButton resume;
 	
-	/** Riferimento al thread che si occupa di far muovere le palline. */
-	Thread t;
-	
 	/** Costruttore parametrico della classe.
 	 * @param x Posizione x della finestra in pixel.
 	 * @param y Posizione y della finestra in pixel.
@@ -41,7 +38,7 @@ public class MainFrame extends JFrame {
 		setSize(w,h);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Random rg = new Random();
-		Ball[] b = new Ball[2];
+		final Ball[] b = new Ball[50];
 		e = new Environment(b, 9.81, 0, 0, bg);
 		for (int i=0; i<b.length; i++) {
 			Color c1 = new Color(rg.nextInt(255),rg.nextInt(255),rg.nextInt(255));
@@ -53,20 +50,20 @@ public class MainFrame extends JFrame {
 		add(e,BorderLayout.CENTER);
 		JPanel tools = new JPanel();
 		add(tools,BorderLayout.SOUTH);
-		t = new Thread(e);
 		start = new JButton("Start");
 		tools.add(start);
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) { 
-				t.start();
-				start.setEnabled(false);
+				for (Ball balls : b) {
+					Thread t = new Thread(balls);
+					t.start();
+				}
 			}
 		});
 		stop = new JButton("Stop");
 		tools.add(stop);
 		stop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
-				t.interrupt();
 			}
 		});
 		
@@ -74,7 +71,6 @@ public class MainFrame extends JFrame {
 		tools.add(resume);
 		resume.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				t.notify();
 			}
 		});
 		

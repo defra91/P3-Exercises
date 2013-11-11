@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
  * @author Luca De Franceschi
  * @version 1.0, Ven 8 Novembre 2013
  */
-public class Environment extends JPanel implements Runnable {
+public class Environment extends JPanel {
 	/** Rappresenta l'array di palline contenute.*/
 	private Ball balls[]; 
 	
@@ -152,19 +152,5 @@ public class Environment extends JPanel implements Runnable {
 			g2.fill(b);
 			g2.setColor(b.getBackgroundColor());
 		}	
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
-	 */
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
-	 */
-	public void run() {
-			for (Ball b : balls) {
-				Thread t = new Thread(b);
-				t.start();
-			}
-			paint(getGraphics());
 	}
 }

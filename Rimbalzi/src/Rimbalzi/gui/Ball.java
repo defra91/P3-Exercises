@@ -11,7 +11,7 @@ import java.lang.Math;
  * @author Luca De Franceschi
  * @version 1.0, Ven 8 Novembre 2013
  */
-public class Ball extends Ellipse2D.Double implements Runnable {
+public class Ball extends Ellipse2D.Double implements Runnable {	
 	/** Descrive la posizione in pixel nell'asse x della finestra. */
 	private double posX = 0;
 	
@@ -199,6 +199,8 @@ public class Ball extends Ellipse2D.Double implements Runnable {
 		}
 		setFrame(x,y,xSize,ySize);
 		env.paint(env.getGraphics());
+		
+	
 	}
 
 	@Override
