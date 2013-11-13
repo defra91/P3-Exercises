@@ -46,17 +46,22 @@ class GeneraPartenze extends Thread {
 class Controllore extends Thread {
 	private Vector<Aereo> codaArrivi = new Vector<Aereo>();
 	private Vector<Aereo> codaPartenze = new Vector<Aereo>();
+	private TS servizio = new TS(new Vector<Aereo>());
 	
 	// definire il metodo AddArrivi(Aereo a)
 	public void addArrivi(Aereo a) {
 		codaArrivi.add(a);
+		servizio.getCoda().add(a);
 	}
 	
 	public void addPartenze(Aereo a) {
 		codaPartenze.add(a);
+		servizio.getCoda().add(a);
 	}
 	
-	private char proxTransito() { return 'A';}
+	private char proxTransito() { 
+		return 'A';
+	}
 	
 	public void run() {
 		while(true) {
@@ -69,14 +74,9 @@ class Controllore extends Thread {
 	private void gestisciArrivo() {
 		if (!codaArrivi.isEmpty()) {
 			Aereo tmp = codaArrivi.remove(0);
-			tmp.stampa();
-			GeneraArrivi g = new GeneraArrivi(this);
-			g.start();
-			
+			tmp.stampa();			
 		}
 		else {
-			TS service = new TS(codaArrivi);
-			service.start();
 		}
 	}
 	
@@ -84,11 +84,8 @@ class Controllore extends Thread {
 		if (!codaPartenze.isEmpty()) {
 			Aereo tmp = codaPartenze.remove(0);
 			tmp.stampa();
-			GeneraPartenze g = new GeneraPartenze(this);
-			g.start();
 		}
 		else {
-			TS service = new TS(codaPartenze); service.start();
 		}
 	}
 	
@@ -97,14 +94,18 @@ class Controllore extends Thread {
 		TS(Vector<Aereo> s) { coda = s; }
 		public Vector<Aereo> getCoda() { return coda; }
 		
-		public void run() {}
+		public void run() {
+			while(true) {
+				System.out.println("TS in esecuzione");
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
 		Controllore contr = new Controllore();
 		GeneraArrivi gA = new GeneraArrivi(contr);
 		GeneraPartenze gP = new GeneraPartenze(contr);
-		gA.start(); gP.start(); contr.start();
+		gP.start(); gA.start();  contr.start();
 	}
 	
 }
