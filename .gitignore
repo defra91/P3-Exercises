@@ -28,5 +28,10 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
-# Java class
+# Java bytecode 
 *.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
