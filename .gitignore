@@ -27,3 +27,6 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
+
+# Java class
+*.class
