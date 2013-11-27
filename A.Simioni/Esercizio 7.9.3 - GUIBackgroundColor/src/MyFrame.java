@@ -61,16 +61,16 @@ public class MyFrame extends JFrame {
 
 		public void run() {
 			try {
-				while (true) {
+				
+				while (!isInterrupted()) {   
 					synchronized (this) {
 
 						while (sospendi == true) {
 							wait();
 
 						}
-						Thread.sleep(30);
 					}
-
+					sleep(30);
 					getContentPane().setBackground(
 							new Color((int) (Math.random() * 256), (int) (Math
 									.random() * 256),
@@ -78,10 +78,10 @@ public class MyFrame extends JFrame {
 					}
 			} catch (InterruptedException I) {
 				Thread.currentThread().interrupt();
-				System.out.println(isInterrupted()
-						+ "- Thread interrotto durante lo sleep");
+				System.out.println( "Thread interrotto durante lo sleep");
 
 			}
+			System.out.println("Thread interrotto mentre era in esecuzione");
 		}
 	}
 	
