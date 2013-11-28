@@ -8,7 +8,7 @@ public class MyFrame extends JFrame {
 	private JButton pausa;
 	private JButton stop;
 	private ChangeBGColorThread t = null;
-	
+
 	private Boolean sospendi = false;
 
 	MyFrame(String s) {
@@ -61,8 +61,8 @@ public class MyFrame extends JFrame {
 
 		public void run() {
 			try {
-				
-				while (!isInterrupted()) {   
+
+				while (!isInterrupted()) {
 					synchronized (this) {
 
 						while (sospendi == true) {
@@ -75,16 +75,16 @@ public class MyFrame extends JFrame {
 							new Color((int) (Math.random() * 256), (int) (Math
 									.random() * 256),
 									(int) (Math.random() * 256)));
-					}
+				}
+
+				System.out
+						.println("Thread interrotto mentre era in esecuzione");
 			} catch (InterruptedException I) {
 				Thread.currentThread().interrupt();
-				System.out.println( "Thread interrotto durante lo sleep");
-
+				System.out.println("Thread interrotto durante lo sleep");
 			}
-			System.out.println("Thread interrotto mentre era in esecuzione");
 		}
 	}
-	
 
 	public static void main(String[] args) {
 		MyFrame f = new MyFrame("GUI");
