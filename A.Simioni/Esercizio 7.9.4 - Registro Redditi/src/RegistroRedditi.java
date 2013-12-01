@@ -1,12 +1,12 @@
 public class RegistroRedditi {
 	private float[] redditi;
 	private int numRedditiInseriti = 0;
-	private int length;
+	private int size;
 	boolean bonusUsato =false;
 
 	public RegistroRedditi(int num) {
 		redditi = new float[num];
-		length = num;
+		size = num;
 
 	}
 
@@ -23,12 +23,12 @@ public class RegistroRedditi {
 		redditi[numRedditiInseriti] = r;
 		numRedditiInseriti++;
 		System.out.println("inserito un reddito di "+ r);
-		if(length - numRedditiInseriti == 2) notifyAll();
+		if(size - numRedditiInseriti == 2) notifyAll();
 
 	}
 
 	synchronized boolean figliFinito() {
-		if((length- numRedditiInseriti) <=2) return true; 
+		if((size- numRedditiInseriti) <=2) return true; 
 		else return false;
 	}
 	
@@ -38,6 +38,7 @@ public class RegistroRedditi {
 		
 		
 	}
+	
 	
 	
 	public static void main(String[] args){
