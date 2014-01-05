@@ -20,13 +20,13 @@ class Attraversamento {
 		try{				
 			if(chi==0) 				
 			{				
-				if(occupato[1] || occupato[2])				
+				while(occupato[1] || occupato[2])				
 				 { System.out.println("Il pedone è sul ciglio della strada e aspetta"); 
 				 wait(); 
 				 }				
 							
 			}				
-			else if(occupato[0]){
+			else while(occupato[0]){
 				System.out.println(Thread.currentThread().getName() + " aspetta il passaggio di un pedone");
 				wait();
 			}
@@ -56,7 +56,7 @@ class Auto extends Thread {
 	public void run () {
 		try {
 			for (int i=distanza; i>0; i--) {
-				Thread.sleep((int)Math.random()*20);
+				Thread.sleep((int)(Math.random()*20));
 			}
 			a.occupa(direzione); // direzione è 0 oppure 1
 			Thread.sleep(100);
@@ -79,7 +79,7 @@ class Pedone extends Thread {
 	public void run(){
 		try{
 			for(int i=distanza; i>0; i--) {
-				Thread.sleep((int)Math.random()*80);
+				Thread.sleep((int)(Math.random()*80));
 			}
 			a.occupa(0); // 0 è il pedone
 			Thread.sleep(100);
