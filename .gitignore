@@ -31,6 +31,9 @@ local.properties
 # Java bytecode 
 *.class
 
+# PMD bugs
+.pmd
+
 # Package Files #
 *.jar
 *.war
